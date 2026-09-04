@@ -1,0 +1,12 @@
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Node / Scratch / Temp
+node_modules/
+*.log
+*.tmp
+.cache/
+.vscode/
+.idea/
