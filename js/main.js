@@ -1,6 +1,6 @@
 /**
  * Sainath Khanawal — Main JavaScript
- * Lightweight, accessible, and fast interactions for menu filtering, navigation, and mobile drawer.
+ * Lightweight, accessible interactions for multi-page navigation, menu search/filtering, FAQ accordions, and mobile drawer.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,14 +10,13 @@ document.addEventListener('DOMContentLoaded', () => {
     yearEl.textContent = new Date().getFullYear();
   }
 
-  // 2. Sticky Header Elevation on Scroll
+  // 2. Sticky Header Elevation on Scroll & Back to Top
   const siteHeader = document.getElementById('siteHeader');
   const backToTopBtn = document.getElementById('backToTop');
 
   const handleScroll = () => {
     const scrollPos = window.scrollY || document.documentElement.scrollTop;
 
-    // Header elevation
     if (siteHeader) {
       if (scrollPos > 30) {
         siteHeader.classList.add('scrolled');
@@ -26,9 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Back to top button visibility
     if (backToTopBtn) {
-      if (scrollPos > 400) {
+      if (scrollPos > 350) {
         backToTopBtn.classList.add('visible');
       } else {
         backToTopBtn.classList.remove('visible');
@@ -38,7 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.addEventListener('scroll', handleScroll, { passive: true });
 
-  // Back to top action
   if (backToTopBtn) {
     backToTopBtn.addEventListener('click', () => {
       window.scrollTo({
@@ -61,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     drawerOverlay.classList.add('active');
     mobileDrawer.setAttribute('aria-hidden', 'false');
     if (mobileMenuBtn) mobileMenuBtn.setAttribute('aria-expanded', 'true');
-    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    document.body.style.overflow = 'hidden';
   };
 
   const closeDrawer = () => {
@@ -89,22 +86,60 @@ document.addEventListener('DOMContentLoaded', () => {
     link.addEventListener('click', closeDrawer);
   });
 
-  // Close drawer on ESC key
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && mobileDrawer && mobileDrawer.classList.contains('open')) {
       closeDrawer();
     }
   });
 
-  // 4. Menu Category Filter Tabs
-  const filterButtons = document.querySelectorAll('.menu-filter-btn');
+  // 4. Menu Category Filtering & Live Search (For menu.html and index.html)
+  const filterButtons = document.querySelectorAll('.menu-tab-btn, .menu-filter-btn');
   const menuCards = document.querySelectorAll('.menu-item-card');
+  const searchInput = document.getElementById('menuSearchInput');
+  const resultsBar = document.getElementById('menuResultsBar');
+  const resultsCount = document.getElementById('resultsCount');
+  const clearFilterBtn = document.getElementById('clearMenuFilterBtn');
+
+  let activeCategory = 'all';
+  let searchQuery = '';
+
+  const applyMenuFilters = () => {
+    let visibleCount = 0;
+
+    menuCards.forEach(card => {
+      const cardCategories = (card.getAttribute('data-category') || '').toLowerCase();
+      const cardTitle = (card.querySelector('.dish-title, .menu-item-title')?.textContent || '').toLowerCase();
+      const cardMarathi = (card.querySelector('.dish-marathi-name, .menu-item-subtitle')?.textContent || '').toLowerCase();
+      const cardDesc = (card.querySelector('.dish-description, .menu-item-desc')?.textContent || '').toLowerCase();
+
+      const matchesCategory = activeCategory === 'all' || cardCategories.includes(activeCategory);
+      const matchesSearch = searchQuery === '' || 
+        cardTitle.includes(searchQuery) || 
+        cardMarathi.includes(searchQuery) || 
+        cardDesc.includes(searchQuery);
+
+      if (matchesCategory && matchesSearch) {
+        card.style.display = 'flex';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    if (resultsBar && resultsCount) {
+      if (searchQuery !== '' || activeCategory !== 'all') {
+        resultsBar.style.display = 'flex';
+        resultsCount.textContent = `Showing ${visibleCount} item${visibleCount === 1 ? '' : 's'}`;
+      } else {
+        resultsBar.style.display = 'none';
+      }
+    }
+  };
 
   filterButtons.forEach(btn => {
     btn.addEventListener('click', () => {
-      const targetCategory = btn.getAttribute('data-category');
+      activeCategory = btn.getAttribute('data-category') || 'all';
 
-      // Update button active state
       filterButtons.forEach(b => {
         b.classList.remove('active');
         b.setAttribute('aria-selected', 'false');
@@ -112,48 +147,59 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.classList.add('active');
       btn.setAttribute('aria-selected', 'true');
 
-      // Filter cards
-      menuCards.forEach(card => {
-        const cardCategories = card.getAttribute('data-category') || '';
-        if (targetCategory === 'all' || cardCategories.includes(targetCategory)) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
-      });
+      applyMenuFilters();
     });
   });
 
-  // 5. Active Navigation Link Highlighting via IntersectionObserver
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.desktop-nav .nav-link');
-
-  if ('IntersectionObserver' in window && sections.length > 0 && navLinks.length > 0) {
-    const observerOptions = {
-      root: null,
-      rootMargin: '-20% 0px -70% 0px',
-      threshold: 0
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const id = entry.target.getAttribute('id');
-          navLinks.forEach(link => {
-            if (link.getAttribute('href') === `#${id}`) {
-              link.classList.add('active');
-            } else {
-              link.classList.remove('active');
-            }
-          });
-        }
-      });
-    }, observerOptions);
-
-    sections.forEach(section => observer.observe(section));
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value.trim().toLowerCase();
+      applyMenuFilters();
+    });
   }
 
-  // 6. Smooth scroll offset adjustment for all anchor links
+  if (clearFilterBtn) {
+    clearFilterBtn.addEventListener('click', () => {
+      activeCategory = 'all';
+      searchQuery = '';
+      if (searchInput) searchInput.value = '';
+
+      filterButtons.forEach(b => {
+        if (b.getAttribute('data-category') === 'all') {
+          b.classList.add('active');
+          b.setAttribute('aria-selected', 'true');
+        } else {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected', 'false');
+        }
+      });
+
+      applyMenuFilters();
+    });
+  }
+
+  // 5. FAQ Accordion Controls (for guide.html and home page)
+  const faqButtons = document.querySelectorAll('.faq-question-btn');
+  faqButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+      
+      // Close other accordions in the same group if desired, or toggle current
+      btn.setAttribute('aria-expanded', !isExpanded);
+      const answerPane = btn.nextElementSibling;
+      if (answerPane && answerPane.classList.contains('faq-answer-pane')) {
+        if (!isExpanded) {
+          answerPane.style.maxHeight = answerPane.scrollHeight + 'px';
+          answerPane.style.padding = '16px 20px';
+        } else {
+          answerPane.style.maxHeight = null;
+          answerPane.style.padding = '0 20px';
+        }
+      }
+    });
+  });
+
+  // 6. Smooth scroll for anchor links
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
@@ -174,3 +220,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
