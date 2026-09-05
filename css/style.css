@@ -9,43 +9,44 @@
    1. CSS Custom Properties / Design Tokens
    -------------------------------------------------------------------------- */
 :root {
-  /* Brand Color Palette: Warm Maharashtrian Heritage */
-  --color-primary: #9E2A2B;          /* Deep Kolhapuri chili / terracotta */
-  --color-primary-dark: #7A1F20;     /* Deep roasted maroon */
-  --color-primary-light: #B83A3C;    /* Warm crimson accent */
-  --color-accent: #C97A2B;           /* Roasted spice & brass */
-  --color-accent-light: #E09545;     /* Warm turmeric */
-  --color-accent-subtle: #F7EBDD;    /* Warm cream accent tint */
+  /* Brand Color Palette: Royal Maratha & Burnished Gold */
+  --color-primary: #8B1E1E;          /* Royal Maratha Deep Crimson / Ruby */
+  --color-primary-dark: #661212;     /* Imperial Velvet Maroon */
+  --color-primary-light: #A82C2C;    /* Rich Crimson Accent */
+  --color-accent: #D4AF37;           /* Royal Burnished Gold / Shimmering Brass */
+  --color-accent-light: #E8C85A;     /* Warm Radiance Gold */
+  --color-accent-dark: #B08D23;      /* Antique Deep Gold */
+  --color-accent-subtle: #FDF7E7;    /* Imperial Champagne & Gold Tint */
 
   /* WhatsApp Brand Green */
   --color-whatsapp: #25D366;
   --color-whatsapp-dark: #1EBE5B;
 
   /* Neutral Surfaces & Grays */
-  --color-bg-main: #FAF7F2;          /* Parchment warm canvas */
-  --color-bg-surface: #FFFFFF;       /* Crisp card white */
-  --color-bg-subtle: #F3ECE0;        /* Subtle section container background */
-  --color-bg-dark: #1A1615;          /* Kala Masala Charcoal */
-  --color-bg-dark-surface: #26201D;  /* Charcoal elevated surface */
+  --color-bg-main: #FDFBF7;          /* Royal Warm Ivory Canvas */
+  --color-bg-surface: #FFFFFF;       /* Crisp Card White */
+  --color-bg-subtle: #F6F0E4;        /* Warm Linen Sand Canvas */
+  --color-bg-dark: #14100E;          /* Deep Obsidian & Kala Masala Charcoal */
+  --color-bg-dark-surface: #1E1815;  /* Elevated Obsidian Surface */
 
   /* Typography Colors */
-  --color-text-main: #241E1B;        /* Charcoal body text */
-  --color-text-muted: #61564F;       /* Warm neutral secondary text */
-  --color-text-light: #8E8177;       /* Tertiary subtle text */
-  --color-text-inverse: #FAF7F2;     /* Inverted text on dark/terracotta */
+  --color-text-main: #1D1714;        /* Deep Espresso Charcoal Body Text */
+  --color-text-muted: #5C4E45;       /* Warm Neutral Heritage Secondary Text */
+  --color-text-light: #8C7C71;       /* Tertiary Soft Slate */
+  --color-text-inverse: #FDFBF7;     /* Inverted Royal Ivory */
   
   /* Borders & Dividers */
-  --color-border: #E4D9CA;          /* Earthy warm 1px border */
-  --color-border-subtle: #ECE2D4;   /* Very light divider */
-  --color-border-dark: #3A322D;     /* Dark theme border */
+  --color-border: #E8DEC8;          /* Warm Antique Gold / Parchment Border */
+  --color-border-subtle: #F2EAD9;   /* Very Light Soft Linen Divider */
+  --color-border-dark: #332822;     /* Dark Mode Obsidian Border */
 
   /* Badges */
-  --badge-nonveg-border: #D9534F;
-  --badge-nonveg-bg: #FDF2F2;
+  --badge-nonveg-border: #DC2626;
+  --badge-nonveg-bg: #FEF2F2;
   --badge-nonveg-text: #991B1B;
-  --badge-veg-border: #15803D;
+  --badge-veg-border: #16A34A;
   --badge-veg-bg: #F0FDF4;
-  --badge-veg-text: #166534;
+  --badge-veg-text: #15803D;
 
   /* Typography System */
   --font-serif: 'Playfair Display', Georgia, serif;
@@ -61,10 +62,10 @@
   --border-radius-md: 10px;
   --border-radius-lg: 14px;
 
-  /* Shadows (Restrained, Natural, Non-AI) */
-  --shadow-subtle: 0 2px 6px rgba(26, 22, 21, 0.04);
-  --shadow-card: 0 4px 14px rgba(26, 22, 21, 0.06);
-  --shadow-hover: 0 8px 24px rgba(26, 22, 21, 0.10);
+  /* Shadows (Refined Warm Golden/Obsidian Glow) */
+  --shadow-subtle: 0 2px 8px rgba(29, 23, 20, 0.04);
+  --shadow-card: 0 4px 16px rgba(29, 23, 20, 0.07);
+  --shadow-hover: 0 10px 28px rgba(29, 23, 20, 0.12);
 
   /* Transitions */
   --transition-fast: 0.18s ease;
@@ -215,7 +216,7 @@ button {
 .btn-primary {
   background-color: var(--color-primary);
   color: #FFFFFF;
-  box-shadow: 0 2px 8px rgba(158, 42, 43, 0.25);
+  box-shadow: 0 2px 8px rgba(139, 30, 30, 0.28);
   border: 1px solid var(--color-primary-dark);
 }
 
@@ -223,7 +224,7 @@ button {
   background-color: var(--color-primary-dark);
   color: #FFFFFF;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(158, 42, 43, 0.35);
+  box-shadow: 0 4px 14px rgba(139, 30, 30, 0.40);
 }
 
 .btn-secondary {
@@ -233,9 +234,9 @@ button {
 }
 
 .btn-secondary:hover {
-  background-color: #ECE2D4;
+  background-color: var(--color-accent-subtle);
   color: var(--color-primary);
-  border-color: var(--color-primary);
+  border-color: var(--color-accent);
 }
 
 .btn-hero-secondary {
@@ -248,6 +249,7 @@ button {
 .btn-hero-secondary:hover {
   background-color: #FFFFFF;
   color: var(--color-primary);
+  border-color: var(--color-accent);
   transform: translateY(-1px);
 }
 
@@ -700,9 +702,9 @@ button {
   inset: 0;
   background: linear-gradient(
     90deg,
-    rgba(26, 22, 21, 0.94) 0%,
-    rgba(26, 22, 21, 0.85) 45%,
-    rgba(26, 22, 21, 0.45) 100%
+    rgba(20, 16, 14, 0.95) 0%,
+    rgba(20, 16, 14, 0.86) 45%,
+    rgba(20, 16, 14, 0.45) 100%
   );
 }
 
@@ -728,8 +730,8 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background-color: rgba(201, 122, 43, 0.25);
-  border: 1px solid rgba(201, 122, 43, 0.6);
+  background-color: rgba(212, 175, 55, 0.20);
+  border: 1px solid rgba(212, 175, 55, 0.65);
   color: var(--color-accent-light);
   font-family: var(--font-heading);
   font-size: 0.85rem;
@@ -749,7 +751,7 @@ button {
 .hero-sub-badge {
   display: inline-flex;
   align-items: center;
-  background-color: rgba(26, 22, 21, 0.7);
+  background-color: rgba(20, 16, 14, 0.75);
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: #FDF4E7;
   font-family: var(--font-heading);
@@ -817,8 +819,8 @@ button {
   .hero-overlay {
     background: linear-gradient(
       180deg,
-      rgba(26, 22, 21, 0.88) 0%,
-      rgba(26, 22, 21, 0.95) 100%
+      rgba(20, 16, 14, 0.88) 0%,
+      rgba(20, 16, 14, 0.96) 100%
     );
   }
   .hero-section {
@@ -2066,7 +2068,7 @@ button {
    20. Dedicated Sub-Page Hero Banner & Breadcrumbs
    -------------------------------------------------------------------------- */
 .page-hero {
-  background: linear-gradient(135deg, var(--color-bg-dark) 0%, #3D1314 100%);
+  background: linear-gradient(135deg, #14100E 0%, #380C0D 50%, #14100E 100%);
   color: #FFFFFF;
   padding: 56px 0 48px;
   position: relative;
@@ -2081,7 +2083,7 @@ button {
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at 80% 20%, rgba(200, 116, 43, 0.18) 0%, transparent 60%);
+  background: radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.22) 0%, transparent 60%);
   pointer-events: none;
 }
 
